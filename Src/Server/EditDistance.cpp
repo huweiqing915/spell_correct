@@ -10,8 +10,26 @@
 #include <string.h>
 #include <stdexcept>
 #include <fstream>
+#include <queue>
 
 using namespace std;
+
+struct CorrectWord {
+	int _edit_distance;
+	string _word;
+	int _frequency;
+	CorrectWord(int distance, string word, int freq):_edit_distance(distance), _word(word), _frequency(freq)  { }
+};
+
+struct compare {
+	bool operator()(const CorrectWord &a, const CorrectWord &b)
+	{
+		if(a._edit_distance == b._edit_distance)
+			return a._frequency < b._frequency;
+		else
+			return a._edit_distance > b._edit_distance;
+	}
+};
 
 inline int min(int a, int b, int c)
 {
@@ -92,13 +110,22 @@ void query_word(const string &word)
 	int min_distance = 100;
 	int max_frequency = 0;
 	int frequency;
+	
+	priority_queue<CorrectWord, vector<CorrectWord>, compare> q;
 
 	while(infile >> directory_word >> frequency)
 	{
 //		cout << directory_word <<"\t" << frequency << endl;
 		int distance = edit_distance(word, directory_word);
+		if(distance < 5)
+		{
+//			cout << directory_word <<"\t" << distance << endl;
+			q.push(CorrectWord(distance, directory_word, frequency));
+		}
+		else
+			continue;
 //		cout << distance << endl;
-		if(distance < min_distance)
+/*		if(distance < min_distance)
 		{
 			min_distance = distance;
 			max_frequency = frequency;
@@ -116,6 +143,16 @@ void query_word(const string &word)
 		}
 	}
 	cout << correct_word << endl;
+	*/
+	}
+	cout << endl << "Result is:" << endl;
+	for(int i = 0; i != 3; ++i)
+	{
+		if(q.empty())
+			break;
+		cout << q.top()._word << endl;
+		q.pop();
+	}
 }
 
 int main()

@@ -10,34 +10,36 @@
 
 using namespace std;
 
+
 Task::Task()
 {
-	_tq.read_file("/var/www/spell_correct/Data/test.txt");
-	_tq.build_map();
 }
+
 
 void Task::excute_task()
 {
+	_sc.correct_word(_word);
 	string jsonstr = json_string();
 	sendto(_server_sockfd, jsonstr.c_str(), jsonstr.size(), 0, (struct sockaddr*)&_client_addr, sizeof(_client_addr));
-//	close(_server_sockfd);
 }
 
 string Task::json_string( )
 {
 	Json::Value root ;
 	Json::Value arr ;
-	set<TextQuery::_line_no> line_set = _tq.get_line_num(_word);
-	set<TextQuery::_line_no>::iterator iter = line_set.begin();
-	while(iter != line_set.end())
+//	set<TextQuery::_line_no> line_set = _tq.get_line_num(_word);
+//	set<TextQuery::_line_no>::iterator iter = line_set.begin();
+//	while(iter != line_set.end())
+	for(int i = 0; i != 3; ++i)
 	{
+		if(_sc.is_queue_empty())
+			break;
 		Json::Value elem ;
 		char line[64] = "";
-		sprintf(line , "line_%d:", *iter + 1);
+		sprintf(line , "Candidate word(%d):", i + 1);
 		elem["title"] = line ;
-		elem["summary"] = _tq.get_line(*iter).c_str() ;
+		elem["summary"] = _sc.get_correct_word();
 		arr.append(elem);
-		++ iter;
 	}
 	root["files"]=arr ;
 	Json::FastWriter writer ;

@@ -81,14 +81,16 @@ void SpellCorrect::correct_word(const string &word)
 	while(infile >> directory_word >> frequency)
 	{
 		int distance = edit_distance(word, directory_word);
-	//	cout << directory_word << " " << distance << endl;
+	#ifdef DEBUG
+		cout << directory_word << " " << distance << endl;
+	#endif	
 		if(distance < 5)
 		{
 //			outfile << directory_word << " " << distance << endl; 
 			_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
 		}
 	}
-	/*
+#ifdef DEBUG
 	cout << endl << "result is :" << endl;
 	for(int i = 0; i != 3; ++i)
 	{
@@ -97,7 +99,7 @@ void SpellCorrect::correct_word(const string &word)
 		cout << _correct_word_queue.top()._word << endl;
 		_correct_word_queue.pop();
 	}
-	*/
+#endif
 //	outfile.close();
 //	outfile.clear();
 	infile.close();
