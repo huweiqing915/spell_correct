@@ -35,6 +35,33 @@
 			});
 		});
 	}); 
+
+	$(document).ready(function()
+	{
+		$(".searchBlock input").keypress(function(event) {       
+        if (event.keyCode == 13) {
+			var searchWords = $("#searchContent").val();
+			$.post("client_udp.php", {search_content:searchWords}, function(data, status){
+				if (status == "success") 
+				{
+					var obj = eval("(" + data + ")"); 
+					$("#result").html("");
+					$.each(obj.files, function(i, item) {
+                    $("#result").append(
+                    	//将遍历到的数据显示在id为result这个div里面
+                        //根据json对象的每一个子集的键显示相应的值，这是json的语法
+                        "<div>" + item.title  + "</div>" +
+                        "<div>" + item.summary+ "</div><hr/>");
+               		});
+				}
+				else
+				{
+					alert("error!");
+				}
+			});
+		}
+		});
+	}); 
 </script>
 </head>
 
