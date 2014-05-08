@@ -8,15 +8,17 @@
 #ifndef TASK_H_
 #define TASK_H_
 
+#include "SpellCorrect.h"
+#include "json/json.h"
+
 #include <string>
 #include <netinet/in.h>
-#include "TextQuery.h"
-#include "json/json.h"
 
 class Task {
 public:
 	struct sockaddr_in _client_addr;
 	int _server_sockfd;
+
 	Task();
 
 	void excute_task();
@@ -30,9 +32,10 @@ public:
 	{
 		return _word;
 	}
+
 private:
 	std::string _word;
-	TextQuery _tq;
+	SpellCorrect _sc;
 	std::string json_string();
 };
 

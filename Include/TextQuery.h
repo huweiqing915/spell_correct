@@ -23,19 +23,20 @@ public:
 	typedef std::string _word;
 	typedef std::string _single_line;
 	typedef std::vector<std::string>::size_type _line_no;
-	typedef std::map<_word, std::set<_line_no> >::iterator _map_iterator;
+//	typedef std::map<_word, std::set<_line_no> >::iterator _map_iterator;
 
 	void read_file(const std::string&);
 	void build_map();
+	void write_file();
+//	std::set<_line_no> get_line_num(const std::string&);
+//	std::string get_line(_line_no pos);
+//	void query_word(const std::string&);
 
-	std::set<_line_no> get_line_num(const std::string&);
-	std::string get_line(_line_no pos);
-	void query_word(const std::string&);
-
-	void debug();
+//	void debug();
 private:
+	std::map<_word, int> _word_map;		
 	std::vector<std::string> _lines;
-	std::map<_word, std::set<_line_no> > _word_map;
+//	std::map<_word, std::set<_line_no> > _word_map;
 };
 
 #endif
