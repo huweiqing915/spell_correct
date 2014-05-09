@@ -2,9 +2,8 @@
 	> File Name: SpellCorrect.cpp
 	> Author: huwq
 	> Mail:huweiqing915@gmail.com 
-	> Created Time: 2014年05月05日 星期一 20时27分10秒
+	> Created Time: 2014年05月09日 星期五 15时13分57秒
  ************************************************************************/
-
 
 #include <iostream>
 #include <string>
@@ -140,7 +139,7 @@ void SpellCorrect::correct_word(const string &word)
 	#ifdef DEBUG
 		cout << directory_word << " " << distance << endl;
 	#endif	
-	
+
 		if(distance < 5)
 		{
 //			outfile << directory_word << " " << distance << endl; 
@@ -179,3 +178,4 @@ bool SpellCorrect::is_queue_empty()
 {
 	return _correct_word_queue.empty();
 }
+
