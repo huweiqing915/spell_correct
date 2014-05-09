@@ -2,7 +2,7 @@
 	> File Name: SpellCorrect.h
 	> Author: huwq
 	> Mail:huweiqing915@gmail.com 
-	> Created Time: 2014年05月05日 星期一 20时34分36秒
+	> Created Time: 2014年05月09日 星期五 15时18分01秒
  ************************************************************************/
 
 #ifndef SPELL_CORRECT_H_
@@ -50,3 +50,4 @@ private:
 };
 
 #endif
+
