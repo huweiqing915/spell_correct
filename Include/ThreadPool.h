@@ -31,10 +31,7 @@ public:
 	void add_task(Task&);
 	bool get_task(Task&);
 
-	std::vector<WorkThread>& get_thread_vector()
-	{
-		return _thread_vector;
-	}
+	std::vector<WorkThread>& get_thread_vector();	//获得WorkThread的Vector，提供给CacheManageThread
 
 private:
 	std::vector<WorkThread> _thread_vector;

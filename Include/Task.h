@@ -20,8 +20,8 @@ public:
 	struct sockaddr_in _client_addr;
 	int _server_sockfd;
 
-//	void excute_task(std::unordered_map<std::string, std::string> &);
-	void excute_task();
+	void excute_task(std::unordered_map<std::string, std::string> &);
+//	void excute_task();
 
 	void recv_word(const char *str)
 	{

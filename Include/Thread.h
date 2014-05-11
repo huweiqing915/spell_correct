@@ -12,17 +12,15 @@
 //#include <iostream>
 #include "Cache.h"
 
-#define CACHE_FILE_PATH  "/var/www/spell_correct/Data/cache.txt"
-
 class Thread {
 public:
 	Thread();
 	virtual ~Thread();
 
 	void start();
-	Cache& get_thread_cache();
+	
 protected:
-	Cache _cache;
+	Cache _cache;	//每个工作线程都有自己的一个cache
 private:
 	pthread_t _pid;
 	pthread_attr_t _attr;

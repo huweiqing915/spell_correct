@@ -14,7 +14,7 @@
 
 #include "Log.h"
 
-#define WRITE_TIME 60
+#define CACHE_FILE_PATH "/var/www/spell_correct/Data/cache.txt"
 
 /*struct CacheWord
 {
@@ -22,23 +22,22 @@
 	int _cache_frequency;
 };*/
 
+
 class Cache {
 public:
 	typedef std::unordered_map<std::string, std::string> _hash_map;
 	typedef std::unordered_map<std::string, std::string>::iterator _hashmap_iter;
 
 	bool find_cache_word(const std::string&, std::string&);
-	bool add_hash(_hash_map &hash, const std::string &key, const std::string &value);
 
-	void add_thread_hash(_hash_map &hash_a, _hash_map &hash_b);
+	// bool add_hash(_hash_map &hash, const std::string &key, const std::string &value);
+	// void add_thread_hash(_hash_map &hash_a, _hash_map &hash_b);
+	void add_thread_hash(_hash_map &src_hash);
 	
-	void get_disk_cache(const std::string&);
-	void write_to_disk(const std::string&);
+	void get_disk_cache();
+	void write_to_disk();
 
-	_hash_map& get_hash_map()
-	{
-		return _hash;
-	}
+	_hash_map& get_hash_map();
 
 private:
 	std::unordered_map<std::string, std::string> _hash;
