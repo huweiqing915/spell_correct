@@ -20,10 +20,14 @@
 
 class Index {
 public:
+	typedef std::unordered_map<std::string, std::map<std::string, int> > _index_map;
+
 	void divided_single_word(const std::string &, std::vector<std::string> &);
 	void build_index(const std::string &word, int freq);
-	void read_dict();
+	void read_dictionary();
 	void debug();
+
+	_index_map& get_index();
 private:
 	std::unordered_map<std::string, std::map<std::string, int> > _index;
 //	SpellCorrect _sc;

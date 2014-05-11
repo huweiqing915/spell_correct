@@ -15,6 +15,8 @@
 #include <unordered_map>
 #include <netinet/in.h>
 
+#define CANDIDATE_WORD_NUM 5	//发送给客户端候选词的数量
+
 class Task {
 public:
 	struct sockaddr_in _client_addr;

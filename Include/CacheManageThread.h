@@ -4,7 +4,10 @@
 	> Mail:huweiqing915@gmail.com 
 	> Created Time: 2014年05月10日 星期六 01时37分56秒
  ************************************************************************/
-
+/*
+ *  专门用来管理其他线程的cache的线程
+ *  待添加将cache同步到所有线程的功能
+ */
 #ifndef CACHE_THREAD_H_
 #define CACHE_THREAD_H_ 
 
@@ -20,8 +23,8 @@ class ThreadPool;
 
 class CacheManageThread : public Thread {
 public:
-	CacheManageThread();
-	~CacheManageThread() {}
+	CacheManageThread();	
+	~CacheManageThread() { }	//必须定义析构函数，否则编译器会报错
 	void get_related(ThreadPool * p);	//注册到线程池中
 	
 	void get_threadpool_vector();	//获得线程池中其他工作线程的vector
