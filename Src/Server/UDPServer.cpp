@@ -7,8 +7,8 @@
 
 #include "UDPServer.h"
 #include "Task.h"
-#include <iostream>
-#include <stdlib.h>
+#include "Log.h"
+
 
 using namespace std;
 
@@ -44,7 +44,7 @@ void UDPServer::open_pool(ThreadPool::max_thread_num num)
 void UDPServer::open_thread_pool()
 {
 	tp.start_thread_pool();
-	while(true)
+	while(true)	//服务器负责收
 	{
 		receive();
 	}
@@ -67,6 +67,7 @@ void UDPServer::receive()
 	recv_buf[n_read] = '\0';
 	
 	cout << "Receive from client:" << recv_buf << endl;
+	LogInfo("Receive from client(query word):%s", recv_buf);
 	tmp.recv_word(recv_buf);
 	tmp._server_sockfd = _fd;
 //	return string(buf);

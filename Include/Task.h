@@ -12,6 +12,7 @@
 #include "json/json.h"
 
 #include <string>
+#include <unordered_map>
 #include <netinet/in.h>
 
 class Task {
@@ -19,8 +20,7 @@ public:
 	struct sockaddr_in _client_addr;
 	int _server_sockfd;
 
-	Task();
-
+//	void excute_task(std::unordered_map<std::string, std::string> &);
 	void excute_task();
 
 	void recv_word(const char *str)
@@ -37,6 +37,7 @@ private:
 	std::string _word;
 	SpellCorrect _sc;
 	std::string json_string();
+	std::string in_cache_json_string(const std::string &);
 };
 
 #endif

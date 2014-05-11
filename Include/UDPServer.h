@@ -8,14 +8,20 @@
 #ifndef UDP_SERVER_H_
 #define UDP_SERVER_H_
 
+#include <iostream>
+#include <string>
+#include <stdexcept>
+
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <unistd.h>
-#include <string>
+#include <stdlib.h>
 #include <string.h>
-#include <stdexcept>
+
+
 #include "ThreadPool.h"
+#include "Log.h"
 
 class UDPServer {
 public:
@@ -32,7 +38,8 @@ private:
 	std::string _port;
 	void server_bind();
 	ThreadPool tp;
-	void receive();
+
+	void receive();	//负责收信息
 };
 
 #endif 

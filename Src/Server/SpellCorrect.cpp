@@ -13,6 +13,7 @@
 
 #include "SpellCorrect.h"
 #include "EncodingConverter.h"
+#include "Log.h"
 
 using namespace std;
 
@@ -116,10 +117,10 @@ static ifstream& open_file(ifstream &is, const string &filename)
 	return is;
 }
 
-void SpellCorrect::correct_word(const string &word)
+void SpellCorrect::query_word(const string &word)
 {
 	ifstream infile;
-	string file_name = "/home/hwq/src/0507/demo/dict/jieba.dict.gbk";
+	string file_name = DICT_PATH;
 	if(!open_file(infile, file_name))
 	{
 		throw runtime_error("open directory.txt error!");
@@ -162,6 +163,19 @@ void SpellCorrect::correct_word(const string &word)
 //	outfile.clear();
 	infile.close();
 	infile.clear();
+}
+
+string SpellCorrect::get_word_queue_top(string &word)
+{
+	if(_correct_word_queue.empty())
+	{
+		LogError("_correct_word_queue is empty"); 
+		return word;
+	}
+	string ret = _correct_word_queue.top()._word;
+	EncodingConverter trans;
+	ret = trans.gbk_to_utf8(ret);
+	return ret;
 }
 
 string SpellCorrect::get_correct_word()

@@ -15,6 +15,8 @@
 #include <queue>
 #include <vector>
 
+#define DICT_PATH "/home/hwq/src/0507/demo/dict/jieba.dict.gbk"
+
 struct CorrectWord {
 	int _edit_distance;
 	std::string _word;
@@ -22,7 +24,7 @@ struct CorrectWord {
 
 	CorrectWord(int distance, const std::string &word, int frequency):_edit_distance(distance), _word(word), _frequency(frequency)
 	{
-		//default construct
+		//construct
 	}
 };
 
@@ -42,8 +44,9 @@ struct compare {
 class SpellCorrect {
 public:
 	int edit_distance(const std::string &, const std::string &);
-	void correct_word(const std::string &);
+	void query_word(const std::string &);
 	std::string get_correct_word();
+	std::string get_word_queue_top(std::string &);
 	bool is_queue_empty();
 private:
 	std::priority_queue<CorrectWord, std::vector<CorrectWord>, compare> _correct_word_queue;

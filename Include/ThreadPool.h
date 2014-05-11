@@ -11,9 +11,14 @@
 #include "MutexLock.h"
 #include "Condition.h"
 #include "WorkThread.h"
+#include "CacheManageThread.h"
 #include "Task.h"
+#include "Log.h"
+
 #include <vector>
 #include <queue>
+
+#define THREAD_NUM 5
 
 class ThreadPool {
 public:
@@ -26,8 +31,14 @@ public:
 	void add_task(Task&);
 	bool get_task(Task&);
 
+	std::vector<WorkThread>& get_thread_vector()
+	{
+		return _thread_vector;
+	}
+
 private:
 	std::vector<WorkThread> _thread_vector;
+	CacheManageThread _cache_manage_thread;
 	std::queue<Task> _task_queue;
 	bool _is_pool_started;
 	MutexLock _lock;

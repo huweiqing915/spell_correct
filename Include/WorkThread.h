@@ -9,14 +9,18 @@
 #define WORK_THREAD_H_
 
 #include "Thread.h"
+#include "Cache.h"
+#include "Log.h"
 
-class ThreadPool;
-class WorkThread : public Thread {
+class ThreadPool;	//因为本文件与ThreadPool类相互include，所以在此处要用前向声明
+
+class WorkThread : public Thread {	//继承父类Thread
 public:
-	void register_thread_pool(ThreadPool*);
+	void register_thread_pool(ThreadPool *);	//与线程池取得联系
 private:
-	void run();
+	void run();	
 	ThreadPool *_p_thread_pool;
+	Cache _cache;
 };
 
 #endif

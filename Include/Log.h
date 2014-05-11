@@ -16,6 +16,7 @@
 #include <stdarg.h>
 #include <assert.h>
 
+#define LOG_PATH "/var/www/spell_correct/Log/log.txt"
 #define FILE_BASENAME strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__
 
 #define LogDebug(fmt, ...) Log::LoggingF(LL_DEBUG, FILE_BASENAME, __LINE__, fmt, ## __VA_ARGS__)

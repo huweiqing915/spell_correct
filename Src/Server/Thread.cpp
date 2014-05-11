@@ -6,8 +6,9 @@
  ************************************************************************/
 
 #include "Thread.h"
+#include "Log.h"
+
 #include <stdexcept>
-#include <iostream>
 
 Thread::Thread():_pid(0), _is_thread_started(false)
 {
@@ -21,15 +22,22 @@ void Thread::start()
 		return ;
 	}
 	_is_thread_started = true;
-	if(pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_DETACHED))
+
+	//设置pthread_create的第二个属性，使得线程不需要join
+	if(pthread_attr_setdetachstate(&_attr, PTHREAD_CREATE_DETACHED))	
 	{
+		LogFatal("pthread_attr_setdetachstate error!");	
 		throw std::runtime_error("pthread_attr_setdetachstate");
 	}
 
 	if(pthread_create(&_pid, &_attr, thread_func, this))
 	{
+		LogFatal("pthread creat error!");
 		throw std::runtime_error("pthread create");
 	}
+
+	_cache.get_disk_cache(CACHE_FILE_PATH);	//每个线程开始的时候都读取cache文件
+
 }
 
 void* Thread::thread_func(void *arg)
@@ -38,6 +46,12 @@ void* Thread::thread_func(void *arg)
 	p->run();
 	return NULL;
 }
+
+Cache& Thread::get_thread_cache()
+{
+	return _cache;	
+}
+
 /* for test
 void Thread::run()
 {

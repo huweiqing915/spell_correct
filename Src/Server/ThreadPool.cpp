@@ -10,13 +10,14 @@
 
 using namespace std;
 
-ThreadPool::ThreadPool():_thread_vector(5), _cond(_lock), _is_pool_started(false)
+ThreadPool::ThreadPool():_thread_vector(THREAD_NUM), _cond(_lock), _is_pool_started(false)
 {
 	std::vector<WorkThread>::iterator iter = _thread_vector.begin();
 	for(; iter != _thread_vector.end(); ++iter)
 	{
 		iter->register_thread_pool(this);
 	}
+	_cache_manage_thread.get_related(this);
 }
 
 void ThreadPool::start_thread_pool()
@@ -27,10 +28,15 @@ void ThreadPool::start_thread_pool()
 	}
 	_is_pool_started = true;
 	std::vector<WorkThread>::iterator iter = _thread_vector.begin();
-	for(; iter != _thread_vector.end(); ++iter)
+	while(iter != _thread_vector.end())	//依次打开线程
 	{
 		iter->start();
+		++iter;
 	}
+	_cache_manage_thread.start();
+	LogInfo("Start the thread pool");
+	cout << "Server already started." << endl;
+
 }
 
 void ThreadPool::stop_thread_pool()
@@ -44,6 +50,7 @@ void ThreadPool::stop_thread_pool()
 			_task_queue.pop();
 		}
 	}
+	LogInfo("Stop thread pool.");
 }
 
 void ThreadPool::add_task(Task &task)
@@ -51,7 +58,8 @@ void ThreadPool::add_task(Task &task)
 	_lock.lock();
 	_task_queue.push(task);
 	_lock.unlock();
-	cout << "add a task" << endl;
+	LogInfo("Add a task to queue.");
+	cout << "Add a task" << endl;
 	_cond.notify_all();
 }
 
@@ -71,7 +79,8 @@ bool ThreadPool::get_task(Task &task)
 	_task_queue.pop();
 	_lock.unlock();
 	_cond.notify_all();
-	cout << "get a task" << endl;
+	LogInfo("Get a task from queue.");
+	cout << "Get a task" << endl;
 	return true;
 }
 

@@ -9,6 +9,10 @@
 #define THREAD_H_
 
 #include <pthread.h>
+//#include <iostream>
+#include "Cache.h"
+
+#define CACHE_FILE_PATH  "/var/www/spell_correct/Data/cache.txt"
 
 class Thread {
 public:
@@ -16,6 +20,9 @@ public:
 	virtual ~Thread();
 
 	void start();
+	Cache& get_thread_cache();
+protected:
+	Cache _cache;
 private:
 	pthread_t _pid;
 	pthread_attr_t _attr;

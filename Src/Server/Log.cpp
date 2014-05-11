@@ -15,7 +15,7 @@ void Log::Logging(size_t level, const string &msg, const char *fileName, int lin
 	assert(level <= LL_FATAL);
 	FILE *fp;
 	char buf[CSTR_BUFFER_SIZE];
-	if((fp = fopen("../../Log/log.txt", "a+")) == NULL )
+	if((fp = fopen(LOG_PATH, "a+")) == NULL )
 	{
 		throw runtime_error("open log.txt failed!");
 	}

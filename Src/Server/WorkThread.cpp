@@ -5,10 +5,10 @@
 	> Created Time: 2014年04月28日 星期一 23时24分58秒
  ************************************************************************/
 
+#include "ThreadPool.h"
 #include "WorkThread.h"
 #include "Task.h"
-#include "ThreadPool.h"
-#include <iostream>
+
 
 void WorkThread::register_thread_pool(ThreadPool *p)
 {
@@ -20,11 +20,16 @@ void WorkThread::run()
 	while(true)
 	{
 		Task task;
+		/*
+		 * 如果获取任务时，返回值为false，那么说明线程池已经关闭，所以
+		 * 此时线程需要退出死循环
+		 */
 		if(!_p_thread_pool->get_task(task))
 		{
-			std::cout << "get task error" << std::endl;
+			LogError("Get task error, thread pool is closed!");
 			break;
 		}
+	//	task.excute_task(_cache.get_hash_map());
 		task.excute_task();
 		sleep(1);
 	}
