@@ -4,6 +4,10 @@
 	> Mail:huweiqing915@gmail.com 
 	> Created Time: 2014年05月05日 星期一 20时27分10秒
  ************************************************************************/
+/*
+ * 这个是只提供英文纠错的版本
+ */
+
 
 #include "SpellCorrect.h"
 #include <iostream>

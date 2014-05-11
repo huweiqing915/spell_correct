@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
 	Index index;
-	index.read_dict();
+	index.read_dictionary();
 	index.debug();
 	return 0;
 }

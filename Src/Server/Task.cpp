@@ -35,6 +35,7 @@ void Task::excute_task(unordered_map<string, string> &_hash)
 	sendto(_server_sockfd, jsonstr.c_str(), jsonstr.size(), 0, (struct sockaddr*)&_client_addr, sizeof(_client_addr));
 }
 
+//在cache中查找到的发送的json格式
 string Task::in_cache_json_string(const string &str)
 {
 	Json::Value root ;
@@ -51,6 +52,7 @@ string Task::in_cache_json_string(const string &str)
 	return stlwriter.write(root);
 }
 
+//在词典（或index）中查找到的发送的json格式
 string Task::json_string()
 {
 	Json::Value root ;
@@ -58,7 +60,7 @@ string Task::json_string()
 //	set<TextQuery::_line_no> line_set = _tq.get_line_num(_word);
 //	set<TextQuery::_line_no>::iterator iter = line_set.begin();
 //	while(iter != line_set.end())
-	for(int i = 0; i != 4; ++i)
+	for(int i = 0; i != CANDIDATE_WORD_NUM; ++i)	
 	{
 		if(_sc.is_queue_empty())
 			break;

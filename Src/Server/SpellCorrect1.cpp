@@ -2,9 +2,11 @@
 	> File Name: SpellCorrect.cpp
 	> Author: huwq
 	> Mail:huweiqing915@gmail.com 
-	> Created Time: 2014年05月05日 星期一 20时27分10秒
+	> Created Time: 2014年05月09日 星期五 15时13分57秒
  ************************************************************************/
-
+/*
+ * 最新的版本(可以查看中文的版本)，作为备份
+ */
 
 #include <iostream>
 #include <string>
@@ -14,7 +16,7 @@
 
 #include "SpellCorrect.h"
 #include "EncodingConverter.h"
-#include "MixSegment.hpp"
+#include "Log.h"
 
 using namespace std;
 
@@ -65,27 +67,6 @@ inline uint16_t * change_to_short(const string &str, int len)
 	return arr;
 }
 
-SpellCorrect::SpellCorrect():dict_path("DATA_PATH/jieba.dict.gbk"),model_path("DATA_PATH/hmm_model.gbk"),
-	segment(dict_path, model_path)
-{
-	get_dictionary();
-}
-
-SpellCorrect::~SpellCorrect()
-{
-
-}
-
-void SpellCorrect::get_dictionary()
-{
-	string dict1 = "DATA_PATH/jieba.dict.gbk";  //Chinese
-	_dictionary_paths.push_back(dict1);
-	string dict2 = "DATA_PATH/dictionary.txt";	//English
-	_dictionary_paths.push_back(dict2);
-}
-
-
-//Compute the Chinese & English edit_distance 
 int SpellCorrect::edit_distance(const string &a, const string &b)
 {
 	int len1 = count_size(a);
@@ -139,89 +120,35 @@ static ifstream& open_file(ifstream &is, const string &filename)
 	return is;
 }
 
-
-bool SpellCorrect::is_ascii(const string &str)
+void SpellCorrect::query_word(const string &word)
 {
-	string::size_type ix = 0;
-	if(str[ix] & 0x80)	//first position is 1 --this is a GBK
-		return 	false;
-	else
-		return true;
-}
-
-void clear_queue(priority_queue<CorrectWord, vector<CorrectWord>, compare> &prior_queue)
-{
-	while(!prior_queue.empty())
-	prior_queue.pop();
-}
-
-//Find the correct word in the dictionary
-void SpellCorrect::correct_word(const string &word)
-{
-	
-	EncodingConverter trans;
-	vector<string> cut_words;
-	cut_words.clear();
-
-	string gbk_word = trans.utf8_to_gbk(word);
-	segment.cut(gbk_word, cut_words);  //use the cut tool to cut word
-
 	ifstream infile;
-
-	vector<string>::iterator iter = cut_words.begin();
-	while(iter != cut_words.end())
+	string file_name = DICT_PATH;
+	if(!open_file(infile, file_name))
 	{
-		string directory_word;
-		string m;
-		int frequency;
-		
-		if(is_ascii(*iter))	//this is an English word, open english dictionary
-		{
-			if(!open_file(infile, _dictionary_paths[1]))
-			{
-				LogFatal("open file %s error!", _dictionary_paths[1].c_str());
-				throw runtime_error("open directory.txt error!");
-			}
-			while(infile >> directory_word >> frequency >> m)
-			{
-				int distance = edit_distance(*iter, directory_word);
-			
-			#ifdef DEBUG
-				cout << directory_word << " " << distance << endl;
-			#endif	
+		throw runtime_error("open directory.txt error!");
+	}
+//	ofstream outfile;
+//	outfile.open("/var/www/spell_correct/Data/output.txt");
+	EncodingConverter trans;
+	string directory_word;
+	string word1;
+	word1 = trans.utf8_to_gbk(word);
+	int frequency;
+	string m;
+	while(infile >> directory_word >> frequency >> m)
+	{
+		int distance = edit_distance(word1, directory_word);
 	
-				if(distance < DISTANCE_DISTRICT)
-				{
-//					outfile << directory_word << " " << distance << endl; 
-					_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
-				}
-			}
-			_correct_word_vector.push_back(_correct_word_queue);
-			clear_queue(_correct_word_queue);
-		}
+	#ifdef DEBUG
+		cout << directory_word << " " << distance << endl;
+	#endif	
 
-		else 	//Chinese, open Chinese dictionary
+		if(distance < 5)
 		{
-			if(!open_file(infile, _dictionary_paths[0]))
-			{
-				LogFatal("open file %s error!", _dictionary_paths[0].c_str());
-				throw runtime_error("open directory.txt error!");
-			}
-			while(infile >> directory_word >> frequency >> m)
-			{
-				int distance = edit_distance(*iter, directory_word);
-				if(distance < DISTANCE_DISTRICT)
-				{
-//					outfile << directory_word << " " << distance << endl; 
-					_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
-				}
-			}
-			_correct_word_vector.push_back(_correct_word_queue);
-			clear_queue(_correct_word_queue);
-
+//			outfile << directory_word << " " << distance << endl; 
+			_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
 		}
-		infile.close();
-		infile.clear();
 	}
 
 #ifdef DEBUG
@@ -235,24 +162,32 @@ void SpellCorrect::correct_word(const string &word)
 	}
 #endif
 
+//	outfile.close();
+//	outfile.clear();
 	infile.close();
 	infile.clear();
 }
 
-string SpellCorrect::get_correct_word()
-{ 
-	string ret;
-	while(vector<priority_queue<CorrectWord, vector<CorrectWord>, compare> >::iterator iter = _correct_word_vector.begin();
-				iter != _correct_word_vector.end(); ++iter)
+string SpellCorrect::get_word_queue_top(string &word)
+{
+	if(_correct_word_queue.empty())
 	{
-		ret += iter->top()._word;
+		LogError("_correct_word_queue is empty"); 
+		return word;
 	}
+	string ret = _correct_word_queue.top()._word;
 	EncodingConverter trans;
 	ret = trans.gbk_to_utf8(ret);
+	return ret;
+}
 
-#ifdef DEBUG
-	cout << "return string:" << ret << endl;
-#endif
+string SpellCorrect::get_correct_word()
+{ 
+	string ret = _correct_word_queue.top()._word;
+	EncodingConverter trans;
+	ret = trans.gbk_to_utf8(ret);
+//	cout << "return string:" << ret << endl;
+	_correct_word_queue.pop();
 	return ret;
 }
 
@@ -260,3 +195,4 @@ bool SpellCorrect::is_queue_empty()
 {
 	return _correct_word_queue.empty();
 }
+

@@ -9,7 +9,6 @@
 #include "WorkThread.h"
 #include "Task.h"
 
-
 void WorkThread::register_thread_pool(ThreadPool *p)
 {
 	_p_thread_pool = p;
@@ -29,7 +28,7 @@ void WorkThread::run()
 			LogError("Get task error, thread pool is closed!");
 			break;
 		}
-		task.excute_task(_cache.get_hash_map());  //提供线程自己的cache来查找
+		task.excute_task(_cache.get_hash_map());  //用线程自己的cache来查找
 		sleep(1);
 	}
 }

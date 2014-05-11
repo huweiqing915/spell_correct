@@ -58,7 +58,7 @@ void Index::build_index(const string &word, int freq)
 	}
 }
 
-void Index::read_dict()
+void Index::read_dictionary()
 {
 	ifstream infile;
 	if(!open_file(infile, DICT_PATH))
@@ -94,6 +94,10 @@ void Index::debug()
 	outfile.clear();
 }
 
+_index_map& get_index()
+{
+	return _index;
+}
 
 
 

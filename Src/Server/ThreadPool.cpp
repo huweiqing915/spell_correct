@@ -27,6 +27,10 @@ void ThreadPool::start_thread_pool()
 		return ;
 	}
 	_is_pool_started = true;
+	//read_dictionary是增加index功能后的操作
+	//线程池开启需要读入词典，建立index
+	_index.read_dictionary();
+
 	std::vector<WorkThread>::iterator iter = _thread_vector.begin();
 	while(iter != _thread_vector.end())	//依次打开线程
 	{
@@ -36,7 +40,6 @@ void ThreadPool::start_thread_pool()
 	_cache_manage_thread.start();	//启动管理线程
 	LogInfo("Start the thread pool");
 	cout << "Server already started." << endl;
-
 }
 
 void ThreadPool::stop_thread_pool()
@@ -87,6 +90,11 @@ bool ThreadPool::get_task(Task &task)
 vector<WorkThread>& ThreadPool::get_thread_vector()
 {
 	return _thread_vector;
+}
+
+Index::_index_map& ThreadPool::get_index_table()
+{
+	return _index.get_index();
 }
 
 ThreadPool::~ThreadPool()
