@@ -12,10 +12,7 @@
 
 using namespace std;
 
-unordered_map<string, string> _hash;
-
-//void Task::excute_task(unordered_map<string, string> &_hash)
-void Task::excute_task()
+void Task::excute_task(unordered_map<string, string> &_hash)
 {
 	string jsonstr;
 	unordered_map<string, string>::iterator iter = _hash.find(_word);
@@ -32,7 +29,7 @@ void Task::excute_task()
 		cout << "Send not in cache..." << endl;
 	#endif
 		_sc.query_word(_word);
-		_hash.insert(make_pair(_word, _sc.get_word_queue_top(_word)));
+		_hash.insert(make_pair(_word, _sc.get_word_queue_top(_word)));  //不在cache里面就增加新的
 		jsonstr = json_string();
 	}
 	sendto(_server_sockfd, jsonstr.c_str(), jsonstr.size(), 0, (struct sockaddr*)&_client_addr, sizeof(_client_addr));

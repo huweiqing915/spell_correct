@@ -33,7 +33,7 @@ void ThreadPool::start_thread_pool()
 		iter->start();
 		++iter;
 	}
-	_cache_manage_thread.start();
+	_cache_manage_thread.start();	//启动管理线程
 	LogInfo("Start the thread pool");
 	cout << "Server already started." << endl;
 
@@ -82,6 +82,11 @@ bool ThreadPool::get_task(Task &task)
 	LogInfo("Get a task from queue.");
 	cout << "Get a task" << endl;
 	return true;
+}
+
+vector<WorkThread>& ThreadPool::get_thread_vector()
+{
+	return _thread_vector;
 }
 
 ThreadPool::~ThreadPool()

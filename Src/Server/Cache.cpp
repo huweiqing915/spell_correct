@@ -19,7 +19,7 @@ bool Cache::find_cache_word(const string &key_word, string &value)
 		return true;
 }
 
-bool Cache::add_hash(_hash_map &hash, const string &key, const string &value)
+/*bool Cache::add_hash(_hash_map &hash, const string &key, const string &value)
 {
 	pair<_hashmap_iter, bool> ret = hash.insert(make_pair(key, value));
 	if(ret.second)
@@ -28,14 +28,19 @@ bool Cache::add_hash(_hash_map &hash, const string &key, const string &value)
 		return false;
 }
 
-void Cache::add_thread_hash(_hash_map &hash_a, _hash_map &hash_b)
+void Cache::add_thread_hash(_hash_map &src_hash, _hash_map &des_hash)	//把src加到des中
 {
-	for(auto & x: hash_a)
+	for(auto & x: src_hash)
 	{
-	#ifndef NDEBUG
-		cout << x.first << ":  " << x.second << endl;
-	#endif
-		add_hash(hash_b,x.first, x.second);
+		add_hash(des_hash, x.first, x.second);
+	}
+}*/
+
+void Cache::add_thread_hash(_hash_map &src_hash)
+{
+	for(auto & x: src_hash)
+	{
+		_hash.insert(make_pair(x.first, x.second));
 	}
 }
 
@@ -55,12 +60,12 @@ static inline ofstream& open_file(ofstream &os, const string &filename)
 	return os;
 }
 
-void Cache::get_disk_cache(const string &filename)
+void Cache::get_disk_cache()
 {
 	ifstream infile;
-	if(!open_file(infile, filename))
+	if(!open_file(infile, CACHE_FILE_PATH))
 	{
-		LogError("open %s error!", filename.c_str());
+		LogError("open %s error!", CACHE_FILE_PATH);
 	}
 	string key, value;
 	while(infile >> key >> value)
@@ -71,25 +76,23 @@ void Cache::get_disk_cache(const string &filename)
 	infile.clear();
 }
 
-void Cache::write_to_disk(const string &filename)
+void Cache::write_to_disk()
 {
 	ofstream outfile;
-	if(!open_file(outfile, filename))
+	if(!open_file(outfile, CACHE_FILE_PATH))
 	{
-		LogError("open %s error!", filename.c_str());
+		LogError("open %s error!", CACHE_FILE_PATH);
 	}
 
-	while(true)
+	for(auto & x : _hash)
 	{
-		sleep(WRITE_TIME);
-		for(auto & x : _hash)
-		{
-			outfile << x.first << "\t" << x.second << endl;
-		}
-		outfile.clear();
+		outfile << x.first << "\t" << x.second << endl;
 	}
 	outfile.close();
 	outfile.clear();
 }
 
-
+Cache::_hash_map& Cache::get_hash_map()
+{
+	return _hash;
+}

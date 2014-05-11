@@ -36,7 +36,7 @@ void Thread::start()
 		throw std::runtime_error("pthread create");
 	}
 
-	_cache.get_disk_cache(CACHE_FILE_PATH);	//每个线程开始的时候都读取cache文件
+	_cache.get_disk_cache();	//每个线程开始的时候都读取cache文件
 
 }
 
@@ -45,11 +45,6 @@ void* Thread::thread_func(void *arg)
 	Thread* p = (Thread*)arg;
 	p->run();
 	return NULL;
-}
-
-Cache& Thread::get_thread_cache()
-{
-	return _cache;	
 }
 
 /* for test

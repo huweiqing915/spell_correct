@@ -29,8 +29,12 @@ void WorkThread::run()
 			LogError("Get task error, thread pool is closed!");
 			break;
 		}
-	//	task.excute_task(_cache.get_hash_map());
-		task.excute_task();
+		task.excute_task(_cache.get_hash_map());  //提供线程自己的cache来查找
 		sleep(1);
 	}
+}
+
+Cache& WorkThread::get_thread_cache()
+{
+	return _cache;	
 }
