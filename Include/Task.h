@@ -19,10 +19,11 @@
 
 class Task {
 public:
+	typedef std::unordered_map<std::string, std::map<std::string, int> > _temp_index;
 	struct sockaddr_in _client_addr;
 	int _server_sockfd;
 
-	void excute_task(std::unordered_map<std::string, std::string> &);
+	void excute_task(std::unordered_map<std::string, std::string> &, _temp_index &);
 //	void excute_task();
 
 	void recv_word(const char *str)

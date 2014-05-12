@@ -9,13 +9,20 @@
 #define SPELL_CORRECT_H_ 
 
 #include <string>
-#include <string.h>
-#include <stdexcept>
 #include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <unordered_map>
+#include <map>
+#include <set>
 #include <queue>
 #include <vector>
 
-#define DICT_PATH "/home/hwq/src/0507/demo/dict/jieba.dict.gbk"
+#include <string.h>
+#include <stdint.h>
+#include "Log.h"
+
+//#define DICT_PATH "/home/hwq/src/0507/demo/dict/jieba.dict.gbk"
 
 struct CorrectWord {
 	int _edit_distance;
@@ -25,6 +32,11 @@ struct CorrectWord {
 	CorrectWord(int distance, const std::string &word, int frequency):_edit_distance(distance), _word(word), _frequency(frequency)
 	{
 		//construct
+	}
+
+	bool operator<(const CorrectWord &other) const
+	{
+		return _word < other._word;
 	}
 };
 
@@ -43,13 +55,16 @@ struct compare {
 
 class SpellCorrect {
 public:
+	typedef std::unordered_map<std::string, std::map<std::string, int> > _query_index;
+	typedef std::unordered_map<std::string, std::map<std::string, int> >::iterator _index_iter;
 	int edit_distance(const std::string &, const std::string &);
-	void query_word(const std::string &);
+	void query_word(const std::string &, _query_index &);
 	std::string get_correct_word();
 	std::string get_word_queue_top(std::string &);
 	bool is_queue_empty();
 private:
 	std::priority_queue<CorrectWord, std::vector<CorrectWord>, compare> _correct_word_queue;
+	std::set<CorrectWord> _word_set;
 };
 
 #endif
