@@ -8,8 +8,6 @@
 #include "Thread.h"
 #include "Log.h"
 
-#include <stdexcept>
-
 Thread::Thread():_pid(0), _is_thread_started(false)
 {
 	pthread_attr_init(&_attr);
@@ -36,15 +34,20 @@ void Thread::start()
 		throw std::runtime_error("pthread create");
 	}
 
-	_cache.get_disk_cache();	//每个线程开始的时候都读取cache文件
+	_cache.get_disk_cache();	//每个线程开启的时候都读取cache文件
 
 }
 
 void* Thread::thread_func(void *arg)
 {
 	Thread* p = (Thread*)arg;
-	p->run();
+	p->run();	//用基类的指针来调用子类的这个函数(多态)
 	return NULL;
+}
+
+Thread::~Thread()
+{
+	pthread_attr_destroy(&_attr);
 }
 
 /* for test
@@ -54,7 +57,4 @@ void Thread::run()
 }
 */
 
-Thread::~Thread()
-{
-	pthread_attr_destroy(&_attr);
-}
+
