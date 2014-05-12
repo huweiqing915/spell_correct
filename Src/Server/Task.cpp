@@ -57,9 +57,6 @@ string Task::json_string()
 {
 	Json::Value root ;
 	Json::Value arr ;
-//	set<TextQuery::_line_no> line_set = _tq.get_line_num(_word);
-//	set<TextQuery::_line_no>::iterator iter = line_set.begin();
-//	while(iter != line_set.end())
 	for(int i = 0; i != CANDIDATE_WORD_NUM; ++i)	
 	{
 		if(_sc.is_queue_empty())

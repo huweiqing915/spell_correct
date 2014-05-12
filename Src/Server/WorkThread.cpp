@@ -5,9 +5,8 @@
 	> Created Time: 2014年04月28日 星期一 23时24分58秒
  ************************************************************************/
 
-#include "ThreadPool.h"
 #include "WorkThread.h"
-#include "Task.h"
+#include "ThreadPool.h"	//必须在此声明，否则会互相include
 
 void WorkThread::register_thread_pool(ThreadPool *p)
 {

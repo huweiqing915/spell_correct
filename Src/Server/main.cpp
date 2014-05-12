@@ -7,23 +7,21 @@
 
 #include "ThreadPool.h"
 #include "UDPServer.h"
+#include "Config.h"
+
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-//	cout << "input server config file:"<< endl;
-//	string server_conf;
-//	cin >> server_conf;
-//	UDPServer server(server_conf);
-	ifstream fin("/var/www/spell_correct/Conf/server.conf");
 	string ip , port ;
-	fin >> ip >> port ;
-//	cout << ip << " " << port << endl;
-	fin.close();
-	
+	Config *p_server = Config::get_instance();
+	p_server->get_file_name(string("server_ip"), ip);
+	p_server->get_file_name(string("server_port"), port);
+	//开启服务器
 	UDPServer server(ip, port);
+	//开启线程池
 	server.open_thread_pool();
 
 	return 0;

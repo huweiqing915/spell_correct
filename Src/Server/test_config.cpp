@@ -14,8 +14,8 @@ int main()
 {
 	Config *p_config = Config::get_instance();
 	string ip, port;
-	p_config->get_file_name(string("server_ip"), ip);
-	p_config->get_file_name(string("server_port"), port);
+	p_config->get_file_name("dict_path", ip);
+	p_config->get_file_name("debug_index_path", port);
 	cout << ip << " " << port << endl;
 	return 0;
 }

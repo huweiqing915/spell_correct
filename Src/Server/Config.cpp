@@ -69,6 +69,10 @@ bool Config::load_config_file()
 	{
 		lineno ++;
 		string key, value;
+		if(line.size() == 0)
+		{
+			continue;
+		}
 		//去除符号，保留key和value
 		if(!split(line, key, value, MATCH_CHARACTER))
         {
