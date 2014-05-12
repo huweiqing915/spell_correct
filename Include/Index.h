@@ -15,14 +15,11 @@
 #include <fstream>
 #include <string.h>
 
-#define DICT_PATH  "/var/www/spell_correct/Data/jieba.dict.gbk"
-#define DEBUG_INDEX_PATH "/var/www/spell_correct/Data/index.txt"
-
 class Index {
 public:
 	typedef std::unordered_map<std::string, std::map<std::string, int> > _index_map;
 
-	void divided_single_word(const std::string &, std::vector<std::string> &);
+	void divided_single_word(const std::string &, std::vector<std::string> &); //把汉字或者ascii分为单个的字
 	void read_dictionary();
 	void debug();
 
@@ -30,7 +27,6 @@ public:
 private:
 	std::unordered_map<std::string, std::map<std::string, int> > _index;
 	void build_index(const std::string &, int);
-//	SpellCorrect _sc;
 };
 
 #endif

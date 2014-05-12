@@ -6,6 +6,8 @@
  ************************************************************************/
 
 #include "Index.h"
+#include "Config.h"
+#include "Log.h"
 #include <iostream>
 
 using namespace std;
@@ -18,6 +20,7 @@ ifstream& open_file(ifstream &is, const string &filename)
 	return is;
 }
 
+//把汉字或者ascii分为单个的字
 void Index::divided_single_word(const string &str,vector<string> &vec)
 {
 	vec.clear();
@@ -27,10 +30,11 @@ void Index::divided_single_word(const string &str,vector<string> &vec)
 	{
 		if(str[ix] & 0x80)	//gbk，占两个字节
 		{
-			// if(ix + 1 == str.size())	//检查越界的情况
-			// {
-			// 	throw runtime_error("invalid gbk string");
-			// }
+			if(ix + 1 == str.size())	//检查越界的情况
+			{
+				LogFatal("invalid gbk string");
+			 	throw runtime_error("invalid gbk string");
+			}
 			tmp[0] = str[ix];
 			tmp[1] = str[ix + 1];
 			tmp[2] = '\0';
@@ -51,8 +55,8 @@ void Index::divided_single_word(const string &str,vector<string> &vec)
 void Index::build_index(const string &word, int freq)
 {
 	vector<string> vec;
-	divided_single_word(word, vec);    //把word分开，并存入index中
-	for(auto &x : vec)
+	divided_single_word(word, vec);    //把word分开
+	for(auto &x : vec)	//std=c++11	,存入index中
 	{
 		(_index[x])[word] = freq;
 	}
@@ -61,8 +65,13 @@ void Index::build_index(const string &word, int freq)
 void Index::read_dictionary()
 {
 	ifstream infile;
-	if(!open_file(infile, DICT_PATH))
+	string dict_path;
+	Config *p = Config::get_instance();
+	p->get_file_name("dict_path", dict_path);
+	LogInfo("open %s", dict_path.c_str());
+	if(!open_file(infile, dict_path))
 	{
+		LogError("open dictionary failed!");
 		throw runtime_error("open dictionary failed!");
 	}
 	
@@ -79,7 +88,11 @@ void Index::read_dictionary()
 
 void Index::debug()
 {
-	ofstream outfile(DEBUG_INDEX_PATH);
+	ofstream outfile;
+	Config *p = Config::get_instance();
+	string debug_index_path;
+	p->get_file_name("debug_index_path", debug_index_path);
+	outfile.open(debug_index_path);
 	for(auto &x : _index)
 	{
 		map<string, int> temp_map = x.second;
