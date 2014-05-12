@@ -6,6 +6,7 @@
  ************************************************************************/
 
 #include "Log.h"
+#include "Config.h"
 #include <stdexcept>
 
 using namespace std;
@@ -15,7 +16,10 @@ void Log::Logging(size_t level, const string &msg, const char *fileName, int lin
 	assert(level <= LL_FATAL);
 	FILE *fp;
 	char buf[CSTR_BUFFER_SIZE];
-	if((fp = fopen(LOG_PATH, "a+")) == NULL )
+	string log_path;
+	Config *p_log = Config::get_instance();
+	p_log->get_file_name("log_path", log_path);
+	if((fp = fopen(log_path.c_str(), "a+")) == NULL )
 	{
 		throw runtime_error("open log.txt failed!");
 	}

@@ -1,9 +1,9 @@
-/*
- * EncodingConverter.cpp
- *
- *  Created on: Apr 4, 2014
- *      Author: haha
- */
+/*************************************************************************
+	> File Name: EncodingConverter.cpp
+	> Author: huwq
+	> Mail:huweiqing915@gmail.com 
+	> Created Time: 2014年05月12日 星期一 16时34分09秒
+ ************************************************************************/
 
 #include "EncodingConverter.h"
 #include <iostream>
@@ -12,15 +12,18 @@ const int MAX_SIZE = 1000;
 
 using namespace std;
 
-EncodingConverter::EncodingConverter() {
+EncodingConverter::EncodingConverter() 
+{
 
 }
 
-EncodingConverter::~EncodingConverter() {
+EncodingConverter::~EncodingConverter() 
+{
 
 }
 
-std::string EncodingConverter::gbk_to_utf8(const std::string &s) {
+std::string EncodingConverter::gbk_to_utf8(const std::string &s) 
+{
 	char *from = new char[s.size() + 1];
 	std::strcpy(from, s.c_str());
 	char *to = new char[MAX_SIZE];
@@ -33,7 +36,8 @@ std::string EncodingConverter::gbk_to_utf8(const std::string &s) {
 	return ret;
 }
 
-std::string EncodingConverter::utf8_to_gbk(const std::string &s) {
+std::string EncodingConverter::utf8_to_gbk(const std::string &s) 
+{
 	char *from = new char[s.size() + 1];
 	std::strcpy(from, s.c_str());
 	char *to = new char[MAX_SIZE];
@@ -46,11 +50,10 @@ std::string EncodingConverter::utf8_to_gbk(const std::string &s) {
 	return ret;
 }
 
-int EncodingConverter::code_convert(const char *from_charset,
-		const char *to_charset, char *inbuf, int inlen, char *outbuf,
-		int outlen) {
+int EncodingConverter::code_convert(const char *from_charset,const char *to_charset,
+			 						char *inbuf, int inlen, char *outbuf,int outlen) 
+{
 	iconv_t cd;
-	//int rc;
 	char **pin = &inbuf;
 	char **pout = &outbuf;
 

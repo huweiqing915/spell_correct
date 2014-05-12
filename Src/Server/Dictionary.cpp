@@ -8,11 +8,9 @@
 #include "Dictionary.h"
 #include <stdexcept>
 
-
 using namespace CppJieba;
 
-Dictionary::Dictionary():dict_path("dict/jieba.dict.gbk"),model_path("dict/hmm_model.gbk"),
-      			exclude_path("remove.txt"),segment(dict_path, model_path)
+Dictionary::Dictionary():dict_path("dict/jieba.dict.gbk"),model_path("dict/hmm_model.gbk"),exclude_path("remove.txt"),segment(dict_path, model_path)
 {
 	build_exclude_set();
 }
