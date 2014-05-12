@@ -8,12 +8,12 @@
 #ifndef TASK_H_
 #define TASK_H_
 
-#include "SpellCorrect.h"
-#include "json/json.h"
-
 #include <string>
 #include <unordered_map>
 #include <netinet/in.h>
+
+#include "SpellCorrect.h"
+#include "json/json.h"
 
 #define CANDIDATE_WORD_NUM 5	//发送给客户端候选词的数量
 
@@ -22,9 +22,8 @@ public:
 	typedef std::unordered_map<std::string, std::map<std::string, int> > _temp_index;
 	struct sockaddr_in _client_addr;
 	int _server_sockfd;
-
+	//第一个参数是cache缓存的类型，第二个参数是所有的类型
 	void excute_task(std::unordered_map<std::string, std::string> &, _temp_index &);
-//	void excute_task();
 
 	void recv_word(const char *str)
 	{

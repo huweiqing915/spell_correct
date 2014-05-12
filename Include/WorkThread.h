@@ -13,6 +13,7 @@
 	
 #include "Thread.h"
 #include "Cache.h"
+#include "Task.h"
 #include "Log.h"
 
 class ThreadPool;	//因为本文件与ThreadPool类相互include，所以在此处要用前向声明
@@ -20,7 +21,7 @@ class ThreadPool;	//因为本文件与ThreadPool类相互include，所以在此�
 class WorkThread : public Thread {	//继承父类Thread
 public: 
 	void register_thread_pool(ThreadPool *);	//与线程池取得联系
-	Cache& get_thread_cache();
+	Cache& get_thread_cache();	//cache在基类中已经定义了，这里可以直接用
 private:
 	void run();	
 	ThreadPool *_p_thread_pool;
