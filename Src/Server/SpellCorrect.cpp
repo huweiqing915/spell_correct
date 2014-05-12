@@ -157,6 +157,7 @@ void SpellCorrect::query_word(const string &word, _query_index &index)
 	string word1;
 	word1 = trans.utf8_to_gbk(word);
 	tmp_index.divided_single_word(word1, one_word_vec);
+
 	for(vector<string>::iterator iter = one_word_vec.begin(); iter != one_word_vec.end(); ++iter)
 	{
 		_index_iter got = index.find(*iter); //got->first是单个字,got->second是map
