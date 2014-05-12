@@ -23,6 +23,7 @@ UDPServer::UDPServer(const string &ip, const string &port):_ip(ip), _port(port)
 	server_bind();
 }
 
+//bind
 void UDPServer::server_bind()
 {
 	memset(&_server_addr, 0, sizeof(_server_addr));
