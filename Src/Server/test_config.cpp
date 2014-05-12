@@ -12,10 +12,10 @@ using namespace std;
 
 int main()
 {
-	Config config("config.txt");
-	string filename = "a.txt";
-	string path;
-	config.get_file_path(filename, path);
-	cout << path << endl;
+	Config *p_config = Config::get_instance();
+	string ip, port;
+	p_config->get_file_name(string("server_ip"), ip);
+	p_config->get_file_name(string("server_port"), port);
+	cout << ip << " " << port << endl;
 	return 0;
 }
