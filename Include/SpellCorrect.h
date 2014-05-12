@@ -62,6 +62,7 @@ public:
 	std::string get_correct_word();
 	std::string get_word_queue_top(std::string &);
 	bool is_queue_empty();
+
 private:
 	std::priority_queue<CorrectWord, std::vector<CorrectWord>, compare> _correct_word_queue;
 	std::set<CorrectWord> _word_set;
