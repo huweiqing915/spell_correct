@@ -5,18 +5,12 @@
 	> Created Time: 2014年05月09日 星期五 15时13分57秒
  ************************************************************************/
 /*
- * 最新的版本，作为备份
+ * 含有索引功能的版本
  */
-
-#include <iostream>
-#include <string>
-#include <string.h>
-#include <stdint.h>
-#include <fstream>
 
 #include "SpellCorrect.h"
 #include "EncodingConverter.h"
-#include "Log.h"
+#include "Index.h"
 
 using namespace std;
 
@@ -112,60 +106,77 @@ int SpellCorrect::edit_distance(const string &a, const string &b)
 	return ret;
 }
 
-static ifstream& open_file(ifstream &is, const string &filename)
-{
-	is.close();
-	is.clear();
-	is.open(filename.c_str());
-	return is;
-}
+//注释的内容是没有添加索引index之前的
+// static ifstream& open_file(ifstream &is, const string &filename)
+// {
+// 	is.close();
+// 	is.clear();
+// 	is.open(filename.c_str());
+// 	return is;
+// }
 
-void SpellCorrect::query_word(const string &word)
+//注释的内容是没有添加索引index之前的(从文件中查找)
+// void SpellCorrect::query_word(const string &word)
+// {
+// 	ifstream infile;
+// 	string file_name = DICT_PATH;
+// 	if(!open_file(infile, file_name))
+// 	{
+// 		throw runtime_error("open directory.txt error!");
+// 	}
+// 	EncodingConverter trans;
+// 	string directory_word;
+// 	string word1;
+// 	word1 = trans.utf8_to_gbk(word);
+// 	int frequency;
+// 	string m;
+// 	while(infile >> directory_word >> frequency >> m)
+// 	{
+// 		int distance = edit_distance(word1, directory_word);
+	
+// 	#ifdef DEBUG
+// 		cout << directory_word << " " << distance << endl;
+// 	#endif	
+
+// 		if(distance < 5)
+// 		{
+// //			outfile << directory_word << " " << distance << endl; 
+// 			_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
+// 		}
+// 	}
+// 	infile.close();
+// 	infile.clear();
+// }
+
+//添加索引功能,从索引中查找
+void SpellCorrect::query_word(const string &word, _query_index &index)
 {
-	ifstream infile;
-	string file_name = DICT_PATH;
-	if(!open_file(infile, file_name))
-	{
-		throw runtime_error("open directory.txt error!");
-	}
-//	ofstream outfile;
-//	outfile.open("/var/www/spell_correct/Data/output.txt");
 	EncodingConverter trans;
-	string directory_word;
+	Index tmp_index;
+	vector<string> one_word_vec;	//单个字母或者汉字的vector
 	string word1;
 	word1 = trans.utf8_to_gbk(word);
-	int frequency;
-	string m;
-	while(infile >> directory_word >> frequency >> m)
+	tmp_index.divided_single_word(word1, one_word_vec);
+	for(vector<string>::iterator iter = one_word_vec.begin(); iter != one_word_vec.end(); ++iter)
 	{
-		int distance = edit_distance(word1, directory_word);
-	
-	#ifdef DEBUG
-		cout << directory_word << " " << distance << endl;
-	#endif	
-
-		if(distance < 5)
+		_index_iter got = index.find(*iter); //got->first是单个字,got->second是map
+		if(got != index.end())
 		{
-//			outfile << directory_word << " " << distance << endl; 
-			_correct_word_queue.push(CorrectWord(distance, directory_word, frequency));
+			map<string, int> query_map = got->second;
+			for(map<string, int>::iterator query_iter = query_map.begin(); query_iter != query_map.end(); ++query_iter)
+			{
+				int distance = edit_distance(word1, query_iter->first);
+				if(distance < 5)
+ 				{
+					_word_set.insert(CorrectWord(distance, query_iter->first, query_iter->second));
+				}
+			}
 		}
 	}
-
-#ifdef DEBUG
-	cout << endl << "result is :" << endl;
-	for(int i = 0; i != 3; ++i)
+	for(set<CorrectWord>::iterator set_iter = _word_set.begin(); set_iter != _word_set.end(); ++set_iter)
 	{
-		if(_correct_word_queue.empty())
-			break;
-		cout << _correct_word_queue.top()._word << endl;
-		_correct_word_queue.pop();
+		_correct_word_queue.push(*set_iter);
 	}
-#endif
-
-//	outfile.close();
-//	outfile.clear();
-	infile.close();
-	infile.clear();
 }
 
 string SpellCorrect::get_word_queue_top(string &word)

@@ -12,7 +12,7 @@
 
 using namespace std;
 
-void Task::excute_task(unordered_map<string, string> &_hash)
+void Task::excute_task(unordered_map<string, string> &_hash, _temp_index &index)
 {
 	string jsonstr;
 	unordered_map<string, string>::iterator iter = _hash.find(_word);
@@ -28,7 +28,7 @@ void Task::excute_task(unordered_map<string, string> &_hash)
 	#ifndef NDEBUG
 		cout << "Send not in cache..." << endl;
 	#endif
-		_sc.query_word(_word);
+		_sc.query_word(_word, index);
 		_hash.insert(make_pair(_word, _sc.get_word_queue_top(_word)));  //不在cache里面就增加新的
 		jsonstr = json_string();
 	}

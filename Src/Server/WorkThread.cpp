@@ -28,7 +28,12 @@ void WorkThread::run()
 			LogError("Get task error, thread pool is closed!");
 			break;
 		}
-		task.excute_task(_cache.get_hash_map());  //用线程自己的cache来查找
+		/*
+		 *  用线程自己的cache来查找
+		 *  传cache，传index，得考虑更好的传递的方法，不能都通过这个接口传递数据(单例,指针)
+		 */
+		task.excute_task(_cache.get_hash_map(), _p_thread_pool->get_index_table()); 
+
 		sleep(1);
 	}
 }

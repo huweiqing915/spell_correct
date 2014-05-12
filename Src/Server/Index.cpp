@@ -94,7 +94,7 @@ void Index::debug()
 	outfile.clear();
 }
 
-_index_map& get_index()
+Index::_index_map& Index::get_index()
 {
 	return _index;
 }
