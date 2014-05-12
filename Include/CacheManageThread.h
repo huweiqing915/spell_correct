@@ -16,7 +16,7 @@
 
 #include <vector>
 
-#define WRITE_TIME 60
+#define WRITE_TIME 20
 
 class WorkThread;
 class ThreadPool;

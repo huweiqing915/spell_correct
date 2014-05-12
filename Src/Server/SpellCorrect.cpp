@@ -99,9 +99,12 @@ int SpellCorrect::edit_distance(const string &a, const string &b)
 	{
 		delete [] mem[k];
 	}
-	//delete [] short_a;
-	//delete [] short_b;
+	delete [] short_a;	
+	delete [] short_b;
 	delete [] mem;
+	short_a = NULL; //避免出现野指针
+	short_b = NULL;
+	mem = NULL;
 	return ret;
 }
 

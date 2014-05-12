@@ -14,14 +14,11 @@
 
 #include "Log.h"
 
-#define CACHE_FILE_PATH "/var/www/spell_correct/Data/cache.txt"
-
 /*struct CacheWord
 {
 	std::string _cache_word;
 	int _cache_frequency;
 };*/
-
 
 class Cache {
 public:
@@ -29,10 +26,7 @@ public:
 	typedef std::unordered_map<std::string, std::string>::iterator _hashmap_iter;
 
 	bool find_cache_word(const std::string&, std::string&);
-
-	// bool add_hash(_hash_map &hash, const std::string &key, const std::string &value);
-	// void add_thread_hash(_hash_map &hash_a, _hash_map &hash_b);
-	void add_thread_hash(_hash_map &src_hash);
+	void add_thread_hash(_hash_map &src_hash);	//收集线程的cache的方法
 	
 	void get_disk_cache();
 	void write_to_disk();
@@ -40,6 +34,7 @@ public:
 	_hash_map& get_hash_map();
 
 private:
+	//cache的数据结构，第一个为用户输入的词，第二个为cache中的词
 	std::unordered_map<std::string, std::string> _hash;
 };
 

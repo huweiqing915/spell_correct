@@ -47,7 +47,7 @@ void CacheManageThread::run()
 {
 	while(true)
 	{
-		sleep(20);
+		sleep(WRITE_TIME);	//每隔一段时间就更新一次磁盘的cache
 		scan_thread_map();
 		_cache.write_to_disk();
 	}

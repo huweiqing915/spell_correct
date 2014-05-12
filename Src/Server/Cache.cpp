@@ -6,6 +6,7 @@
  ************************************************************************/
 
 #include "Cache.h"
+#include "Config.h"
 #include <iostream>
 using namespace std;
 
@@ -19,23 +20,7 @@ bool Cache::find_cache_word(const string &key_word, string &value)
 		return true;
 }
 
-/*bool Cache::add_hash(_hash_map &hash, const string &key, const string &value)
-{
-	pair<_hashmap_iter, bool> ret = hash.insert(make_pair(key, value));
-	if(ret.second)
-		return true;
-	else
-		return false;
-}
-
-void Cache::add_thread_hash(_hash_map &src_hash, _hash_map &des_hash)	//把src加到des中
-{
-	for(auto & x: src_hash)
-	{
-		add_hash(des_hash, x.first, x.second);
-	}
-}*/
-
+//提供给CacheManageThread的收集cache的方法
 void Cache::add_thread_hash(_hash_map &src_hash)
 {
 	for(auto & x: src_hash)
@@ -60,12 +45,16 @@ static inline ofstream& open_file(ofstream &os, const string &filename)
 	return os;
 }
 
+//线程池开启的时候每个线程都要读取磁盘上的cache文件
 void Cache::get_disk_cache()
 {
 	ifstream infile;
-	if(!open_file(infile, CACHE_FILE_PATH))
+	string cache_filename;
+	Config *p_config = Config::get_instance();
+	p_config->get_file_name("cache_path", cache_filename);
+	if(!open_file(infile, cache_filename))
 	{
-		LogError("open %s error!", CACHE_FILE_PATH);
+		LogError("open %s error!", cache_filename.c_str());
 	}
 	string key, value;
 	while(infile >> key >> value)
@@ -76,12 +65,16 @@ void Cache::get_disk_cache()
 	infile.clear();
 }
 
+//将收集到的各个线程的cache写到磁盘去的方法
 void Cache::write_to_disk()
 {
 	ofstream outfile;
-	if(!open_file(outfile, CACHE_FILE_PATH))
+	string cache_filename;
+	Config *p_config = Config::get_instance();
+	p_config->get_file_name("cache_path", cache_filename);
+	if(!open_file(outfile, cache_filename))
 	{
-		LogError("open %s error!", CACHE_FILE_PATH);
+		LogError("write %s error!", cache_filename.c_str());
 	}
 
 	for(auto & x : _hash)
