@@ -6,7 +6,6 @@
  ************************************************************************/
 
 #include "Config.h"
-#include "Log.h"
 
 using namespace std;
 
