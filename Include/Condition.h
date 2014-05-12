@@ -9,8 +9,10 @@
 #define CONDITION_H_
 
 #include <pthread.h>
-#include "MutexLock.h"
 #include <stdexcept>
+
+#include "MutexLock.h"
+#include "Log.h"
 
 class Condition {
 public:
@@ -18,6 +20,7 @@ public:
 	{
 		if(pthread_cond_init(&_cond, NULL))
 		{
+			LogFatal("Init pthread condition");
 			throw std::runtime_error("Condition");
 		}
 	}
@@ -39,7 +42,8 @@ public:
 private:
 	MutexLock &_lock;
 	pthread_cond_t _cond;
-	Condition(const Condition&);
+
+	Condition(const Condition&);	//禁止复制与拷贝
 	Condition& operator=(const Condition&);
 };
 
