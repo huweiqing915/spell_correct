@@ -1,18 +1,18 @@
-/*
- * EncodingConverter.h
- *
- *  Created on: Apr 4, 2014
- *      Author: haha
- */
+/*************************************************************************
+	> File Name: EncodingConverter.h
+	> Author: huwq
+	> Mail:huweiqing915@gmail.com 
+	> Created Time: 2014年05月12日 星期一 16时31分13秒
+ ************************************************************************/
 
 #ifndef ENCODINGCONVERTER_H_
 #define ENCODINGCONVERTER_H_
 
-#include "iconv.h"
 #include <string>
 #include <stdexcept>
 #include <cstring>
 #include <stdlib.h>
+#include "iconv.h"
 
 #define OUTLEN 255
 
@@ -22,17 +22,13 @@ public:
 	EncodingConverter();
 	virtual ~EncodingConverter();
 
-
-
 	std::string gbk_to_utf8(const std::string&);
 	std::string utf8_to_gbk(const std::string&);
 
-
-
 private:
-
 	int code_convert(const char *from_charset, const char *to_charset, char *inbuf,
 				int inlen, char *outbuf, int outlen);
 };
 
-#endif /* ENCODINGCONVERTER_H_ */
+#endif
+

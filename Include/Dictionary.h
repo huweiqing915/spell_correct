@@ -4,7 +4,10 @@
 	> Mail:huweiqing915@gmail.com 
 	> Created Time: 2014年05月07日 星期三 20时17分37秒
  ************************************************************************/
-
+/*
+ * 根据材料生成中文词典
+ * 文件路径要在cpp中更改，路径没有提供在配置文件中
+ */
 #ifndef DICTIONARY_H_
 #define DICTIONARY_H_
 
@@ -30,11 +33,11 @@ public:
 	std::ofstream& open_file(std::ofstream &os, const char *filename);
 
 	void read_file(const std::string &filename);
-	void build_word_map(std::string &);
+	void build_word_map(std::string &);	//用map暂存
 
-	void traversal_dir(const std::string &dirname);
+	void traversal_dir(const std::string &dirname); //遍历文件
 
-	void write_dictionary(const std::string &dirname);
+	void write_dictionary(const std::string &dirname); //写入磁盘
 private:
 	const char * const dict_path;
 	const char * const model_path;
@@ -46,7 +49,5 @@ private:
 	std::set<std::string> _exclude;
 	CppJieba::MixSegment segment;
 };
-
-//const char * const dict_path = "dict/jieba.dict.gbk";
 
 #endif
