@@ -2,6 +2,6 @@ server_ip = 127.0.0.1
 server_port = 6688
 
 dict_path = ../Data/jieba.dict.gbk
-log_path = ../Log/log.dat	
+log_path = ../Log/log.dat
 debug_index_path = ../Data/index.dat
 cache_path = ../Data/cache.dat
