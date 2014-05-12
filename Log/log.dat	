@@ -1,0 +1,55 @@
+2014-05-12 17:18:09 Index.cpp:71 INFO open ../Data/jieba.dict.gbk
+2014-05-12 17:18:11 ThreadPool.cpp:41 INFO Start the thread pool
+2014-05-12 17:18:22 UDPServer.cpp:72 INFO Receive from client(query word):语言
+2014-05-12 17:18:22 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:22 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:28 UDPServer.cpp:72 INFO Receive from client(query word):德克
+2014-05-12 17:18:28 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:28 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:31 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:31 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:31 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:33 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:33 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:33 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:34 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:34 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:34 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:35 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:35 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:35 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:35 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:35 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:35 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:36 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:18:36 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:36 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:38 UDPServer.cpp:72 INFO Receive from client(query word):达拉斯
+2014-05-12 17:18:38 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:38 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:56 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:18:56 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:56 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:56 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:18:56 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:56 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:18:58 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:18:58 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:18:58 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:19:00 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:19:00 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:19:00 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:19:01 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:19:01 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:19:01 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:19:01 UDPServer.cpp:72 INFO Receive from client(query word):虚函数
+2014-05-12 17:19:01 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:19:01 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:19:08 UDPServer.cpp:72 INFO Receive from client(query word):达拉斯
+2014-05-12 17:19:08 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:19:08 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 17:19:17 UDPServer.cpp:72 INFO Receive from client(query word):小牛
+2014-05-12 17:19:17 ThreadPool.cpp:64 INFO Add a task to queue.
+2014-05-12 17:19:17 ThreadPool.cpp:85 INFO Get a task from queue.
+2014-05-12 18:24:16 Index.cpp:71 INFO open ../Data/jieba.dict.gbk
+2014-05-12 18:24:18 ThreadPool.cpp:41 INFO Start the thread pool
