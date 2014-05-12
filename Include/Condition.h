@@ -40,7 +40,7 @@ public:
 		pthread_cond_destroy(&_cond);
 	}
 private:
-	MutexLock &_lock;
+	MutexLock &_lock;	//传互斥锁的引用，为了与互斥锁保持一致
 	pthread_cond_t _cond;
 
 	Condition(const Condition&);	//禁止复制与拷贝
