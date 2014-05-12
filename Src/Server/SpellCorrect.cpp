@@ -9,7 +9,6 @@
  */
 
 #include "SpellCorrect.h"
-#include "EncodingConverter.h"
 #include "Index.h"
 
 using namespace std;
@@ -153,7 +152,7 @@ void SpellCorrect::query_word(const string &word, _query_index &index)
 {
 	EncodingConverter trans;
 	Index tmp_index;
-	vector<string> one_word_vec;	//单个字母或者汉字的vector
+	vector<string> one_word_vec;	//单个汉字或者字母的vector
 	string word1;
 	word1 = trans.utf8_to_gbk(word);
 	tmp_index.divided_single_word(word1, one_word_vec);
@@ -163,11 +162,12 @@ void SpellCorrect::query_word(const string &word, _query_index &index)
 		_index_iter got = index.find(*iter); //got->first是单个字,got->second是map
 		if(got != index.end())
 		{
-			map<string, int> query_map = got->second;
+			map<string, int> query_map = got->second;	//暂存查找到的索引的second，即在词典中的词
 			for(map<string, int>::iterator query_iter = query_map.begin(); query_iter != query_map.end(); ++query_iter)
 			{
+				//取出这个字在词典中的词，并且与用户的词比较编辑距离
 				int distance = edit_distance(word1, query_iter->first);
-				if(distance < 5)
+				if(distance < MAX_DISTANCE_DISTRICT)
  				{
 					_word_set.insert(CorrectWord(distance, query_iter->first, query_iter->second));
 				}

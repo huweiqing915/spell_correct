@@ -20,9 +20,11 @@
 
 #include <string.h>
 #include <stdint.h>
+
+#include "EncodingConverter.h"
 #include "Log.h"
 
-//#define DICT_PATH "/home/hwq/src/0507/demo/dict/jieba.dict.gbk"
+#define MAX_DISTANCE_DISTRICT 5  //编辑距离阈值，大于这个值就不进入优先级队列 
 
 struct CorrectWord {
 	int _edit_distance;
@@ -34,7 +36,7 @@ struct CorrectWord {
 		//construct
 	}
 
-	bool operator<(const CorrectWord &other) const
+	bool operator<(const CorrectWord &other) const //给后面用到的set提供比较方法
 	{
 		return _word < other._word;
 	}
@@ -48,7 +50,7 @@ struct compare {
 			return a._frequency < b._frequency;
 		}
 		else
-			//first compare edit distance
+			//先比较编辑距离
 			return a._edit_distance > b._edit_distance;
 	}
 };
